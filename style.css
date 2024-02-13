@@ -20,14 +20,16 @@ body {
     border-radius: 15px;
     height: 60%;
     width: 30%;
+    min-width: 550px;
+    min-height: 600px;
 }
 
 #display-area {
     display : flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: end;
-    height: 25%;
+    height: 17%;
     width: 90%;
     margin-top: 15px;
     border: 1px solid black;
@@ -36,14 +38,9 @@ body {
     padding-top: 10px;
 }
 
-#display-op {
-    font-size: 20px;
-    height: 20%;
-}
-
-#display-result {
+#display-big {
     font-size: 80px;
-    height: 80%;
+    height: 100%;
 }
 
 #buttons {
