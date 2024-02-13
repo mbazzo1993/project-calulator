@@ -105,7 +105,7 @@ function buttonClickHandler(event) {
 
             bigDispDiv.innerHTML = formatOutput(x);
         } else {
-
+            // TO DO : fix logic for specifying y
             if (op !== ''){
 
                 if (y.length < 11 && y !== '') {
@@ -155,6 +155,31 @@ function buttonClickHandler(event) {
             y = '';
             op = '';
             bigDispDiv.innerHTML = formatOutput(x);
+        }
+
+        // handle delete
+        if (btn.value === '<') {
+            if (!xIsDefined) {
+                if (x === '0') {
+                    // do nothing
+                } else if (x.length === 1) {
+                    x = '0';
+                    bigDispDiv.innerHTML = formatOutput(x);
+                } else {
+                    x = x.slice(-2,-1) === '.' ? x.slice(0,-2) : x.slice(0,-1);
+                    bigDispDiv.innerHTML = formatOutput(x);
+                }
+            } else {
+                if (y === '0' || y === '') {
+                    // do nothing
+                } else if (y.length === 1) {
+                    y = '0';
+                    bigDispDiv.innerHTML = formatOutput(y);
+                } else {
+                    y = y.slice(-2,-1) === '.' ? y.slice(0,-2) : y.slice(0,-1);
+                    bigDispDiv.innerHTML = formatOutput(y);
+                }
+            }
         }
 
     }
