@@ -1,9 +1,10 @@
 /** GLOBAL VARIABLES */
 let x = '0';
-let y = '';
+let y = '0';
 let op = '';
 const mathOpsArr = ['/','x','-','+'];
 let xIsDefined = false;
+let yIsDefined = false;
 
 const smallDispDiv = document.querySelector('#display-small');
 const bigDispDiv = document.querySelector('#display-big');
@@ -92,70 +93,143 @@ function buttonClickHandler(event) {
     if (btnType === 'num') {
         // button clicked is a number or decimal sign
         if (!xIsDefined) {
+            let xIsSmallEnough = x.length < 11;
+            let keyIsDecimal = btn.value === '.';
+            let xHasDecimal = x.includes('.');
+            let xIsZero = x === '0';
 
-            if (x.length < 11 && x !== '0') {
-                x += (x.includes('.') || x.length === 0) && btn.value === '.' ?
-                    '' :
-                    btn.value;
-                
+            // append decimal
+            if ((xIsSmallEnough) && (keyIsDecimal && !xHasDecimal)) {
+                x += btn.value;
+            }
 
-            } else if (x === '0') {
-                x = btn.value === '.' ? '0.' : btn.value;
+            // append number
+            if (xIsSmallEnough && !keyIsDecimal) {
+                if (xIsZero) x = btn.value;
+                if (!xIsZero) x += btn.value;
             }
 
             bigDispDiv.innerHTML = formatOutput(x);
         } else {
+            // if x is defined, append number to y
+            let yIsSmallEnough = y.length < 11;
+            let keyIsDecimal = btn.value === '.';
+            let yHasDecimal = y.includes('.');
+            let yIsZero = y === '0';
+            let opIsBlank = op === '';
 
-            if (op !== ''){
+            // if op is blank but x is defined, perform reset and 
+            // append key value to x
+            if (opIsBlank) {
+                clear();
+                buttonClickHandler(event);
+                return;
+            }
 
-                if (y.length < 11 && y !== '') {
+            // append decimal
+            if ((yIsSmallEnough) && (keyIsDecimal && !yHasDecimal)) {
+                y += btn.value;
+                yIsDefined = true;
+            }
 
-                    y += (y.includes('.') || y.length === 0) && btn.value === '.' ?
-                        '' :
-                        btn.value;
-
-                } else if (y === '') {
-                    y = btn.value === '.' ? '0.' : btn.value;
-                }
+            // append number
+            if (yIsSmallEnough && !keyIsDecimal) {
+                if (yIsZero) y = btn.value;
+                if (!yIsZero) y += btn.value;
+                yIsDefined = true;
+            }
 
                 bigDispDiv.innerHTML = formatOutput(y);
-            } else {
-                // if y is specified and op is blank, reset x and y. 
-                // value is reassigned to x
-                x = '0';
-                y = '';
-                xIsDefined = false;
-                buttonClickHandler(event);
+        } 
+    } else { // button clicked is an operator...
+        
+        let isMathOp = mathOpsArr.includes(btn.value);
+        let isOpEmpty = op === '';
+        let isOpClear = btn.value === 'AC';
+        let isOpEquals = btn.value === '=';
+        let isOpDel = btn.value === '<';
 
-            }
-        }
-    } else {
-        // button clicked is an operator
-        if (mathOpsArr.includes(btn.value) && op === '') {
-            // operator is empty
+
+        // handle a math operation - x, y are not defined
+        if (isMathOp && isOpEmpty && !xIsDefined && !yIsDefined) {
             xIsDefined = true;
-            op += btn.value;
-        } else if (mathOpsArr.includes(btn.value) && op !== '' && xIsDefined && y !== '') {
-            // operator is selected while x and y are defined
-            x = String(operate(parseFloat(x),op,parseFloat(y)));
-            y = '';
-            op = btn.value;
-            bigDispDiv.innerHTML = formatOutput(x);
-        } else if (mathOpsArr.includes(btn.value) && op !== '' && xIsDefined && y === '') {
             op = btn.value;
         }
 
-        // handle clear
-        if (btn.value === 'AC') clear();
+        // handle math operation - only x is defined
+        else if (isMathOp && isOpEmpty && xIsDefined && !yIsDefined) {
+            op = btn.value;
+        }
 
-        // handle equals / eval
-        if (btn.value === '=' && x !== '' && y !== '' && op !== '') {
+        // handle math operation - x and y are defined
+        else if (isMathOp && !isOpEmpty && xIsDefined && yIsDefined) {
+            // eval, store in x, reset y
+            x = String(operate(parseFloat(x),op,parseFloat(y)));
+            y = '0'
+            yIsDefined = false;
+            bigDispDiv.innerHTML = formatOutput(x);
+            op = btn.value;
+        }
+
+        // handle clear operation
+        else if (isOpClear) {
+            clear();
+            bigDispDiv.innerHTML = formatOutput(x);
+        } 
+
+        // handle equals / eval operation
+        else if (isOpEquals && xIsDefined && yIsDefined && !isOpEmpty) {
             console.log(operate(parseFloat(x),op,parseFloat(y)));
             x = operate(parseFloat(x),op,parseFloat(y)) === undefined ? 'ERROR' : String(operate(parseFloat(x),op,parseFloat(y)));
-            y = '';
+            y = '0';
             op = '';
+            yIsDefined = false;
             bigDispDiv.innerHTML = formatOutput(x);
         }
+
+        // handle delete operation - x,y not defined
+        else if (isOpDel && !xIsDefined && !yIsDefined) {
+            let xIsZero = x === '0';
+            let xIsLengthOne = x.length === 1;
+            let isDeleteTenth = x.slice(-2,-1) === '.'
+            
+            // deleting the last character
+            if (xIsZero || xIsLengthOne) x = '0';
+
+            // deleting character before decimal - double delete
+            if (isDeleteTenth) x = x.slice(0,-2);
+
+            // otherwise just delete
+            if (!xIsZero && !xIsLengthOne && !isDeleteTenth) x = x.slice(0,-1)
+
+            x = formatOutput(x);
+            bigDispDiv.innerHTML = x;
+        }
+
+        // handle delete operation - only x defined
+        else if (isOpDel && xIsDefined && !yIsDefined) {
+            // do nothing
+        }
+
+        // handle delete operation - x,y are defined
+        else if (isOpDel && xIsDefined && yIsDefined) {
+            let yIsZero = y === '0';
+            let yIsLengthOne = y.length === 1;
+            let isDeleteTenth = y.slice(-2,-1) === '.'
+            
+            // deleting the last character
+            if (yIsZero || yIsLengthOne) y = '0';
+
+            // deleting character before decimal - double delete
+            if (isDeleteTenth) y = y.slice(0,-2);
+
+            // otherwise just delete
+            if (!yIsZero && !yIsLengthOne && !isDeleteTenth) y = y.slice(0,-1)
+
+            y = formatOutput(y);
+            bigDispDiv.innerHTML = y;
+        }
+
 
     }
     
@@ -163,17 +237,18 @@ function buttonClickHandler(event) {
     console.log('op= '+op);
     console.log('y= '+y);
     console.log('xIsDefined= '+xIsDefined);
+    console.log('yIsDefined= '+yIsDefined);
 }
 
 /**
  * Clears div that displays numbers and resets variables
  */
 function clear() {
-    xIsDefined = false;
     x = '0';
-    y = '';
-    op = '';
-    bigDispDiv.innerHTML = x;
+    y = '0';
+    op = ''
+    xIsDefined = false;
+    yIsDefined = false;
 }
 
 /**
@@ -199,7 +274,7 @@ function formatOutput (numStr) {
         if (pow10Suffix.length > 8) return 'ERROR';
 
         // first need to round to 11 places
-        numStr = numStr.slice(0,11)+"."+numStr.slice(11);
+        numStr = numStr.slice(0,10)+"."+numStr.slice(10);
         numStr = String(Math.round(parseFloat(numStr)));
 
         // then round to place based on length of pow10Suffix
