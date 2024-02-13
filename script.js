@@ -1,6 +1,6 @@
 /** GLOBAL VARIABLES */
 let x = '0';
-let y = '0';
+let y = '';
 let op = '';
 const mathOpsArr = ['/','x','-','+'];
 let xIsDefined = false;
@@ -108,13 +108,13 @@ function buttonClickHandler(event) {
 
             if (op !== ''){
 
-                if (y.length < 11 && y !== '0') {
+                if (y.length < 11 && y !== '') {
 
                     y += (y.includes('.') || y.length === 0) && btn.value === '.' ?
                         '' :
                         btn.value;
 
-                } else if (y === '0') {
+                } else if (y === '') {
                     y = btn.value === '.' ? '0.' : btn.value;
                 }
 
@@ -123,7 +123,7 @@ function buttonClickHandler(event) {
                 // if y is specified and op is blank, reset x and y. 
                 // value is reassigned to x
                 x = '0';
-                y = '0';
+                y = '';
                 xIsDefined = false;
                 buttonClickHandler(event);
 
@@ -131,16 +131,18 @@ function buttonClickHandler(event) {
         }
     } else {
         // button clicked is an operator
-        if (mathOpsArr.includes(btn.value) && op === '' && x !== '') {
+        if (mathOpsArr.includes(btn.value) && op === '') {
             // operator is empty
             xIsDefined = true;
             op += btn.value;
-        } else if (mathOpsArr.includes(btn.value) && op !== '' && x !== '' && y !== '') {
-            // operator is not empty
+        } else if (mathOpsArr.includes(btn.value) && op !== '' && xIsDefined && y !== '') {
+            // operator is selected while x and y are defined
             x = String(operate(parseFloat(x),op,parseFloat(y)));
             y = '';
             op = btn.value;
             bigDispDiv.innerHTML = formatOutput(x);
+        } else if (mathOpsArr.includes(btn.value) && op !== '' && xIsDefined && y === '') {
+            op = btn.value;
         }
 
         // handle clear
@@ -150,7 +152,7 @@ function buttonClickHandler(event) {
         if (btn.value === '=' && x !== '' && y !== '' && op !== '') {
             console.log(operate(parseFloat(x),op,parseFloat(y)));
             x = operate(parseFloat(x),op,parseFloat(y)) === undefined ? 'ERROR' : String(operate(parseFloat(x),op,parseFloat(y)));
-            y = '0';
+            y = '';
             op = '';
             bigDispDiv.innerHTML = formatOutput(x);
         }
@@ -169,7 +171,7 @@ function buttonClickHandler(event) {
 function clear() {
     xIsDefined = false;
     x = '0';
-    y = '0';
+    y = '';
     op = '';
     bigDispDiv.innerHTML = x;
 }
@@ -244,7 +246,11 @@ function formatOutput (numStr) {
             numStr.slice(0,pow10)+'.'+numStr.slice(pow10);
         console.log(numStr);
 
-        return removeTrailingZeros(numStr);
+        numStr = removeTrailingZeros(numStr);
+
+        numStr = numStr.slice(-1) === '.' ? numStr.slice(0,-1) : numStr;
+
+        return numStr;
 
     } else if (numStr === 'ERROR') {
         // Case 4 : Error case
