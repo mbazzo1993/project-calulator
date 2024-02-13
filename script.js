@@ -51,7 +51,7 @@ function mutiply(x,y) {
  * @returns {Number}
  */
 function divide(x,y) {
-    return x / y;
+    return y === 0 ? undefined : x / y;
 }
 
 /**
@@ -62,6 +62,7 @@ function divide(x,y) {
  * @returns {Number} (result of the operation)
  */
 function operate(x,op,y) {
+
     switch (op) {
         case "+":
             return add(x,y);
@@ -69,7 +70,7 @@ function operate(x,op,y) {
         case "-":
             return subtract(x,y);
             break;
-        case "*":
+        case "x":
             return mutiply(x,y);
             break;
         case "/":
