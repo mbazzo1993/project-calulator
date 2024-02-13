@@ -272,7 +272,7 @@ function formatOutput (numStr) {
         if (pow10Suffix.length > 8) return 'ERROR';
 
         // first need to round to 11 places
-        numStr = numStr.slice(0,11)+"."+numStr.slice(11);
+        numStr = numStr.slice(0,10)+"."+numStr.slice(10);
         numStr = String(Math.round(parseFloat(numStr)));
 
         // then round to place based on length of pow10Suffix
