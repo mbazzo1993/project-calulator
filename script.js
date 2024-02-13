@@ -202,7 +202,8 @@ function buttonClickHandler(event) {
             // otherwise just delete
             if (!xIsZero && !xIsLengthOne && !isDeleteTenth) x = x.slice(0,-1)
 
-            bigDispDiv.innerHTML = formatOutput(x);
+            x = formatOutput(x);
+            bigDispDiv.innerHTML = x;
         }
 
         // handle delete operation - only x defined
@@ -225,7 +226,8 @@ function buttonClickHandler(event) {
             // otherwise just delete
             if (!yIsZero && !yIsLengthOne && !isDeleteTenth) y = y.slice(0,-1)
 
-            bigDispDiv.innerHTML = formatOutput(y);
+            y = formatOutput(y);
+            bigDispDiv.innerHTML = y;
         }
 
 
