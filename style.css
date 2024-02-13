@@ -16,12 +16,13 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid black;
+    border: 3px solid black;
     border-radius: 15px;
     height: 60%;
     width: 30%;
     min-width: 550px;
     min-height: 600px;
+    background-color: rgb(247, 247, 247);
 }
 
 #display-area {
@@ -32,10 +33,12 @@ body {
     height: 17%;
     width: 90%;
     margin-top: 15px;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 10px;
     padding-right: 10px;
     padding-top: 10px;
+    background-color: rgb(136, 136, 136);
+    color: white;
 }
 
 #display-big {
@@ -68,7 +71,9 @@ body {
 #number-menu div button {
     width: 80%;
     height: 80%;
-    font-size: larger;
+    font-size: xx-large;
+    border-radius: 10px;
+    background-color: rgb(213,214,217);
 }
 
 #operations-menu {
@@ -88,5 +93,18 @@ body {
 #operations-menu button {
     width: 80%;
     height: 80%;
-    font-size: larger;
+    font-size: x-large;
+    border-radius: 7px;
+    background-color: rgb(58, 125, 212);
+    color: white;
 }
+
+#btn-equals {
+    background-color: rgb(78,146,48) !important;
+    color: white;
+}
+
+#btn-clear {
+    background-color: rgb(227,131,52) !important;
+}
+
