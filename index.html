@@ -10,33 +10,32 @@
   <body>
     <div id="calculator-frame">
         <div id="display-area">
-            <div id="display-op">1+2*3/4-9</div>
-            <div id="display-result">9.9999999e9</div>
+            <div id="display-big">0</div>
         </div>
         <div id="buttons">
             <div id="number-menu">
-                <div><button id="btn-7" class="num-btn">7</button></div>
-                <div><button id="btn-8" class="num-btn">8</button></div>
-                <div><button id="btn-9" class="num-btn">9</button></div>
-                <div><button id="btn-4" class="num-btn">4</button></div>
-                <div><button id="btn-5" class="num-btn">5</button></div>
-                <div><button id="btn-6" class="num-btn">6</button></div>
-                <div><button id="btn-1" class="num-btn">1</button></div>
-                <div><button id="btn-2" class="num-btn">2</button></div>
-                <div><button id="btn-3" class="num-btn">3</button></div>
-                <div><button id="btn-0" class="num-btn">0</button></div>
-                <div><button id="btn-decimal" class="op-btn">.</button></div>
-                <div><button id="btn-equals" class="op-btn">=</button></div>
+                <div><button id="btn-7" class="num-btn" data-btn-type="num" data-btn-type="num" value="7">7</button></div>
+                <div><button id="btn-8" class="num-btn" data-btn-type="num" value="8">8</button></div>
+                <div><button id="btn-9" class="num-btn" data-btn-type="num" value="9">9</button></div>
+                <div><button id="btn-4" class="num-btn" data-btn-type="num" value="4">4</button></div>
+                <div><button id="btn-5" class="num-btn" data-btn-type="num" value="5">5</button></div>
+                <div><button id="btn-6" class="num-btn" data-btn-type="num" value="6">6</button></div>
+                <div><button id="btn-1" class="num-btn" data-btn-type="num" value="1">1</button></div>
+                <div><button id="btn-2" class="num-btn" data-btn-type="num" value="2">2</button></div>
+                <div><button id="btn-3" class="num-btn" data-btn-type="num" value="3">3</button></div>
+                <div><button id="btn-0" class="num-btn" data-btn-type="num" value="0">0</button></div>
+                <div><button id="btn-decimal" class="num-btn" data-btn-type="num" value=".">.</button></div>
+                <div><button id="btn-equals" class="num-btn" data-btn-type="op" value="=">=</button></div>
             </div>
             <div id="operations-menu">
-                <div><button id="btn-clear" class="op-btn">AC</button></div>
-                <div><button id="btn-divide" class="op-btn">/</button></div>
-                <div><button id="btn-multiply" class="op-btn">x</button></div>
-                <div><button id="btn-subtract" class="op-btn">-</button></div>
-                <div><button id="btn-add" class="op-btn">+</button></div>
+                <div><button id="btn-clear" class="num-btn" data-btn-type="op" value="AC">AC</button></div>
+                <div><button id="btn-divide" class="num-btn" data-btn-type="op" value="/">/</button></div>
+                <div><button id="btn-multiply" class="num-btn" data-btn-type="op" value="x">x</button></div>
+                <div><button id="btn-subtract" class="num-btn" data-btn-type="op" value="-">-</button></div>
+                <div><button id="btn-add" class="num-btn" data-btn-type="op" value="+">+</button></div>
             </div>
         </div>
     </div>
   </body>
-  <script src="index.js"></script>
+  <script src="script.js"></script>
 </html>
