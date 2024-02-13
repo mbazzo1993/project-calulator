@@ -1,7 +1,17 @@
 /** GLOBAL VARIABLES */
-let x = undefined;
-let y = undefined;
-let op = undefined
+let x = '0';
+let y = '0';
+let op = '';
+const mathOpsArr = ['/','x','-','+'];
+let xIsDefined = false;
+
+const smallDispDiv = document.querySelector('#display-small');
+const bigDispDiv = document.querySelector('#display-big');
+const buttonsDiv = document.querySelector('#buttons');
+
+/** ADD EVENT LISTENERS */
+
+buttonsDiv.addEventListener('click',buttonClickHandler);
 
 /** NAMED FUNCTIONS FOR CALCULATOR */
 /**
